@@ -2,7 +2,7 @@ Annotate-pangenome workflow
 ===================================
 
 **Annotate-pangenome** is a gene annotation workflow which produces
-representative pan-gene sets from multiple isolate genomes. The 
+a pan-gene set of representative CDS/protein sequences from multiple isolate genomes. The 
 workflow accounts for the possibility that some isolates may have more
 available evidence for annotation (here termed 'reference isolates') than others
 ('alternate isolates'), and is executed dynamically depending on provided inputs.
@@ -18,7 +18,7 @@ The PASA gff and Coding Quarry annotations will then be used as evidence in ``fu
 Optionally, ``Coding Quarry pathogen mode`` (CQPM) can be run after funannotate predict. This module will mine intergenic regions for effector-like genes that may have been missed by ``funannotate``.
 
 Finally, ``proteinortho self-blast`` is run to cluster predicted proteins into ortho-groups, and custom scripts are used
-to filter and extract representative sequences, yeilding a pan-gene set representative of multiple isolate genomes. 
+to extract representative sequences, yeilding a pan-gene set representative of multiple isolate genomes. 
 
 
 .. figure:: images/Annotate-pangenome.drawio.png
@@ -26,6 +26,7 @@ to filter and extract representative sequences, yeilding a pan-gene set represen
   :alt: Basic schematic of annotate-pangenome workflow
 
 Basic schematic of annotate-pangenome workflow
+
 
 .. _commands:
 
@@ -40,21 +41,25 @@ A description for all Annotate-pangenome commands.
 	Required:
 		--genomes           Genome fasta files
 		--outputdir         Output directory
-		--gmark_db          "/scratch/y95/kgagalova/HGT/funannotate/genemark/gmes_linux_64" 
-		--augustus_config   "/scratch/y95/kgagalova/software/Augustus/config" 
-		--evm_home          "/scratch/y95/kgagalova/software/EVidenceModeler-v2.1.0" 
+		--gmark_db          Path to user installed GeneMark 
 
 	Optional:
 		--transcripts       Transcript file/s, multiple files will be concatenated
 		--rnareads          RNA reads for reference isolates, must have same basename as corresponding genome
 		-profile            Nextflow profile to use for execution
 		--funannotate_db    Path for funannotate database (will be installed/used from MycoProcessor directory by default)
-		--cqpm              Perform additional annotation with Coding Quarry pathogen mode
+		--cqpm              Perform additional annotation with Coding Quarry pathogen mode. Default: False
 		--signalp_path      Path for SignalP v4.1 (required if running cqpm)
 
 
 .. note::
-   If running CQPM, singularity must be enabled, and a path to SignalP v4.1 must be provided.
+	Genemark must be installed to run this workflow. This is a licensed software which
+	may be downloaded from http://topaz.gatech.edu/GeneMark/license_download.cgi. Provide the
+	path to Genemark with ``--gmark_db``.
+
+   	If running CQPM, singularity must be enabled, and a path to SignalP v4.1 must be provided.
+   	SignalP is a licensed software and may be downloaded from https://services.healthtech.dtu.dk/services/SignalP-4.1/.
+   	Following installation, provide the path to the 'signalp-4.1' directory with ``--signalp_path``.
 
 
 
